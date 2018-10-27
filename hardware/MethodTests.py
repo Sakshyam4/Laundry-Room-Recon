@@ -38,7 +38,7 @@ def magnetometer_test():
     north = sense.get_compass()
     raw_data = sense.get_compass_raw()
     print("North (degrees): %s" % north)
-    print("Raw Data (microTeslas) - X: {x} Y:{y] Z:{z}"\
+    print("Raw Data (microTeslas) - X: {x} Y:{y} Z:{z}"\
           .format(**raw_data))
 
 def loop_magnetometer():
@@ -62,10 +62,12 @@ def loop_gyroscope():
 def accelerometer_test():
     orientation = sense.get_accelerometer()
     raw_data = sense.get_accelerometer_raw()
-    print("Orientation (Degrees): Pitch: {pitch} Roll: {roll} Yaw:{yaw}"\
-          .format(**orientation))
-    print("Raw Data (Gs): X: {x} Y: {y} Z: {z}"\
-          .format(**raw_data))
+    x,y,z = raw_data["x"], raw_data["y"], raw_data["z"]
+    pitch, roll, yaw = orientation["pitch"], orientation["roll"], orientation["yaw"]
+    print("Orientation (Degrees): Pitch: {:.2} Roll: {:.2} Yaw:{:.2}"\
+          .format(pitch, roll, yaw))
+    print("Raw Data (Gs): X: {:.2} Y: {:.2} Z: {:.2}"\
+          .format(x,y,z))
 
 def loop_accelerometer():
     while True:
