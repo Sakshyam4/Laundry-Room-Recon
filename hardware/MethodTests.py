@@ -32,13 +32,42 @@ def all_sensor_orientation_test():
 def loop_orientation():
     while True:
         all_sensor_orientation_test()
-        time.sleep(1)
+        time.sleep(.5)
 
 def magnetometer_test():
-    #stuff
+    north = sense.get_compass()
+    raw_data = sense.get_compass_raw()
+    print("North (degrees): %s" % north)
+    print("Raw Data (microTeslas) - X: {x} Y:{y] Z:{z}"\
+          .format(**raw_data))
+
+def loop_magnetometer():
+    while True:
+        magnetometer_test()
+        time.sleep(.5)
 
 def gyroscope_test():
-    #moar stuff
+    orientation = sense.get_gyroscope()
+    raw_data = sense.get_gyroscope_raw()
+    print("Orientation (Degrees): Pitch: {pitch} Roll: {roll} Yaw:{yaw}"\
+          .format(**orientation))
+    print("Raw Data (radians per second): X: {x} Y: {y} Z: {z}"\
+          .format(**raw_data))
 
+def loop_gyroscope():
+    while True:
+        gyroscope_test()
+        time.sleep(.5)
+    
 def accelerometer_test():
-    #even moar stuff
+    orientation = sense.get_accelerometer()
+    raw_data = sense.get_accelerometer_raw()
+    print("Orientation (Degrees): Pitch: {pitch} Roll: {roll} Yaw:{yaw}"\
+          .format(**orientation))
+    print("Raw Data (Gs): X: {x} Y: {y} Z: {z}"\
+          .format(**raw_data))
+
+def loop_accelerometer():
+    while True:
+        accelerometer_test()
+        time.sleep(.5)
