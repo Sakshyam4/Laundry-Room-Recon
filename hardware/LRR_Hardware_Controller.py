@@ -31,7 +31,7 @@ G = (0,255,0) #Green
 
 sense = SenseHat()
 
-vib_threshold = 1
+vib_threshold = 2
 
 running_image = [
 G, G, G, G, G, G, G, G,
@@ -59,7 +59,7 @@ R, R, R, R, R, R, R, R
 # and calls other functions as necessary.
 def run_lrr():
     #Initialize values/display
-    prev_raw_data = {'x': 0, 'y': 0, 'z': 0}
+    prev_raw_data = {'x': 0, 'y': 1.9, 'z': 95}
     prev_status = 0;
     sense.set_pixels(stopped_image)
     
