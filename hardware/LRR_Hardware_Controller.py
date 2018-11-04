@@ -79,7 +79,7 @@ def run_lrr():
         debug_print(prev_raw_data, raw_data, prev_status, status)
 
         #Update LED display and database if status changes
-        if(status != previous_status):
+        if(status != prev_status):
             display_status(status)
             update_db(status)
             
@@ -119,10 +119,15 @@ def update_db(status):
 
 #Function to print x,y,z values while developing
 def debug_print(prev_data, new_data, prev_status, status):
-    print("\n Previous Data: x = {:.5f}, y = {:.5f}, z = {.5f}," \
-          "\n New Data :     x = {:.5f}, y = {:.5f}, z = {.5f}," \
-          "\n Previous Status: {:d} New Status: {:d}\n" \
-          .format(prev_data['x'], prev_data['y'], prev_data['z'], \
-                  new_data['x'], new_data['y'], new_data['z'], prev_status, status))
+    print("\n Previous Data: x = %.5f, y = %.5f, z = %.5f," \
+          "\n New Data :     x = %.5f, y = %.5f, z = %.5f," \
+          "\n D(x) = %.5f, D(y) = %.5f, D(z) = %.5f" \
+          "\n Previous Status: %d New Status: %d\n" \
+           % (prev_data['x'], prev_data['y'], prev_data['z'], \
+                  new_data['x'], new_data['y'], new_data['z'], \
+                  abs(new_data['x'] - prev_data['x']), \
+                  abs(new_data['y'] - prev_data['y']), \
+                  abs(new_data['z'] - prev_data['z']), \
+                  prev_status, status))
     
     
