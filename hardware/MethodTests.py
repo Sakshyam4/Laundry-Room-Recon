@@ -72,4 +72,4 @@ def accelerometer_test():
 def loop_accelerometer():
     while True:
         accelerometer_test()
-        time.sleep(.5)
+        time.sleep(1)
