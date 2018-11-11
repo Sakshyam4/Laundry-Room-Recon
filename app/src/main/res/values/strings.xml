@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Laundry Room Recon</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="cylce_length">Cycle Length</string>
+    <string name="lrgmedsml">Large \u0020 Med \u0020 Small</string>
+    <string name="start">Start</string>
 </resources>

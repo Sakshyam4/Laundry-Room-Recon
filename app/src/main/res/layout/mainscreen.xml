@@ -9,11 +9,11 @@
     <LinearLayout
         android:id="@+id/BottomLayout"
         android:layout_width="0dp"
-        android:layout_height="206dp"
+        android:layout_height="220dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,6 +22,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <FrameLayout
+            android:id="@+id/leftStart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -30,7 +31,62 @@
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="invisible"
                 app:srcCompat="@drawable/leftbottomstarttest" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/cyclelength"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/helvetmed"
+                    android:text="@string/cylce_length"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp">
+
+                    <ImageButton
+                        android:id="@+id/imageView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="false"
+                        android:background="@null"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="10dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/startbutton" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/helvetmed"
+                        android:paddingTop="60dp"
+                        android:text="@string/start"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="24sp" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/leftlms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/helvetmed"
+                    android:text="@string/lrgmedsml"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
 
         </FrameLayout>
 
@@ -44,6 +100,7 @@
             app:srcCompat="@drawable/bottomdivider" />
 
         <FrameLayout
+            android:id="@+id/rightStart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -52,7 +109,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/rightbottomtest" />
+                app:srcCompat="@drawable/leftbottomstarttest" />
         </FrameLayout>
 
     </LinearLayout>
@@ -94,7 +151,7 @@
                 android:id="@+id/imageView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/DryerFront" />
+                app:srcCompat="@drawable/dryerfront" />
         </FrameLayout>
 
         <View
@@ -118,7 +175,7 @@
                 android:id="@+id/imageView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/WasherFront" />
+                app:srcCompat="@drawable/washerfront" />
         </FrameLayout>
 
     </LinearLayout>
