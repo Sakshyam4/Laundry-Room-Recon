@@ -12,7 +12,11 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageButton;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity implements AnimationListener{
+
 
     Animation startAnim;
     Animation enterClothes;
@@ -38,12 +42,24 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
 
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 AnimationSet s = new AnimationSet(false);
                 s.addAnimation(startAnim);
                 clothes.startAnimation(s);
                 clothes.animate().alpha(1.0f);
+=======
+                clothes.startAnimation(startAnim);
+                WMStatus(1);
+>>>>>>> master
             }});
 
+    }
+
+
+    public void WMStatus(Integer Status){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference Wmstatus = database.getReference("washingMachine");
+        Wmstatus.setValue(Status);
     }
 
     @Override
