@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
         startAnim.setAnimationListener(this);
 
         startButton = (ImageButton)findViewById(R.id.startButton);
+        clothes = (View)findViewById(R.id.clothesSpin);
 
         startButton.setOnClickListener(new View.OnClickListener(){
 
