@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/BottomLayout"
         android:layout_width="0dp"
-        android:layout_height="220dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="16dp"
@@ -30,6 +30,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -47,7 +48,7 @@
                     android:layout_height="170dp">
 
                     <ImageButton
-                        android:id="@+id/imageView11"
+                        android:id="@+id/startButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="false"
