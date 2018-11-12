@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "2561348956-45m0tcraiqjvjkce2q47cdmm99peb99p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sakshyam.lrr",
+            "certificate_hash": "55a922d03dcfb61ea635ea41dd0e021f7fe7f84c"
+          }
+        },
+        {
           "client_id": "2561348956-kgmaaf7nn6aipn858588udrid5ncdi9d.apps.googleusercontent.com",
           "client_type": 3
         }

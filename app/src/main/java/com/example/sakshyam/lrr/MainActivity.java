@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
     Animation startAnim;
     Animation enterClothes;
     View clothes;
+    View slidein;
+    View startview;
     ImageButton startButton;
 
 
@@ -37,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
         clothes = (View)findViewById(R.id.clothesSpin);
         clothes.setAlpha(0.0f);
 
+        slidein = (View)findViewById(R.id.rightSlider);
+        slidein.setAlpha(0.0f);
+        slidein.setX(-1000);
+        startview = (View)findViewById(R.id.readystate);
+
         startButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -47,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
                 clothes.animate().alpha(1.0f);
                 clothes.startAnimation(startAnim);
                 WMStatus(1);
+                slidein.animate().alpha(1.0f);
+                slidein.animate().x(0);
+                startview.animate().x(-1000);
             }});
 
     }
