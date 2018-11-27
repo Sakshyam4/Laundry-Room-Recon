@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "2561348956",
+    "firebase_url": "https://laundry-room-recon.firebaseio.com",
+    "project_id": "laundry-room-recon",
+    "storage_bucket": "laundry-room-recon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2561348956:android:8fa7f4af2c08278b",
+        "android_client_info": {
+          "package_name": "com.example.sakshyam.lrr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2561348956-78313jhcq7r6i7cmk2lijsvj4qnp9oie.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sakshyam.lrr",
+            "certificate_hash": "d8e251aa169eb94dc84abf6e28176e8c580dc7f5"
+          }
+        },
+        {
+          "client_id": "2561348956-45m0tcraiqjvjkce2q47cdmm99peb99p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sakshyam.lrr",
+            "certificate_hash": "55a922d03dcfb61ea635ea41dd0e021f7fe7f84c"
+          }
+        },
+        {
+          "client_id": "2561348956-kgmaaf7nn6aipn858588udrid5ncdi9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ5LEhK_vhYltBE3RKhiWPrV1LQiwcQas"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2561348956-kgmaaf7nn6aipn858588udrid5ncdi9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

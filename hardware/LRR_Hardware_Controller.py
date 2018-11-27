@@ -6,20 +6,20 @@ Necessary Functionality:
 
 Retrieve Sensor Data - IMU Unit & Magnetic Contact Switch
     - Appropriate IMU sensor sensitivity - Automatic
-    - How often?
-    - Accelerometer raw data for vibration?
+    - How often? .5 seconds?
+    - Accelerometer raw data for vibration? - Working
 
 Make device status determinations based on sensor data
 
 Update database
-    - How often?
+    - How often? - only when status changes
 
 Magnetic Contact Switch
     - Use GPIO Zero library?
     - Could also use button on breadboard/Sense hat joystick to simulate
     as suggested by Dr. Lim
     
-Use LED to display running/not running status? -Green/Red?
+Use LED to display running/not running status? -Green/Red? - Working
 '''
 from sense_hat import SenseHat
 import time
@@ -70,7 +70,7 @@ def run_lrr():
         #Gather raw accelerometer data
         raw_data = sense.get_accelerometer_raw()
 
-        #Modify raw data
+        #Modify raw data for easier visualization
         raw_data['x'] *= 100
         raw_data['y'] *= 100
         raw_data['z'] *= 100
@@ -78,7 +78,7 @@ def run_lrr():
         #Get new device status
         status = determine_status(prev_raw_data, raw_data)
         
-        #Debugging/Sensitivity adjustment
+        #Debugging/Sensitivity adjustment output
         debug_print(prev_raw_data, raw_data, prev_status, status)
 
         #Update LED display and database if status changes
@@ -130,7 +130,7 @@ def update_db(status):
     
     #wmstatus.setValue(status_string)
 
-#Function to print x,y,z values while developing
+#Function to print x,y,z values while developing/debugging
 def debug_print(prev_data, new_data, prev_status, status):
     print("\n Previous Data: x = %.5f, y = %.5f, z = %.5f," \
           "\n New Data :     x = %.5f, y = %.5f, z = %.5f," \
