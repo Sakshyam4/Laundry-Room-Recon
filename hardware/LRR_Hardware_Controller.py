@@ -25,6 +25,9 @@ from sense_hat import SenseHat
 import time
 import copy
 
+from firebase import firebase
+firebase = firebase.FirebaseApplication('https://laundry-room-recon.firebaseio.com',None)
+
 #Globals
 R = (255,0,0) #Red
 G = (0,255,0) #Green
@@ -109,13 +112,23 @@ def display_status(status):
 #Updates the firebase database with the new status
 def update_db(status):
     #Do database stuff
+    
     if status == 0:
-        status_string = "Not Running"
+        #curl -X PUT -d '{"washingMachine": "0"}'\
+        #     'https://laundry-room-recon.firebaseio.com'
+        firebase.put('https://laundry-room-recon.firebaseio.com','washingMachine/runningStatus',0)
+        status_string = '0'
     elif status == 1:
-        status_string = "Running"
+        #curl -X PUT -d '{"washingMachine": "1"}'\
+         #    'https://laundry-room-recon.firebaseio.com'
+        firebase.put('https://laundry-room-recon.firebaseio.com','washingMachine/runningStatus',1)
+        status_string = '1'
+
     else:
         status_string = "Problem"
     print("\nUpdating database with {:s} status!\n" .format(status_string))
+    
+    #wmstatus.setValue(status_string)
 
 #Function to print x,y,z values while developing/debugging
 def debug_print(prev_data, new_data, prev_status, status):
