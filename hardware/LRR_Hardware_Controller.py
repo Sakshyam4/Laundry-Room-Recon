@@ -8,10 +8,8 @@ Magnetic Contact Switch
     as suggested by Dr. Lim
 '''
 
-from sense_hat import SenseHat
-from firebase import firebase
-import time
-import copy
+import SenseHat, firebase, gpiozero, time, copy
+
 
 # Debug Constant (Very C-esque, I know)
 DEBUG = 1
