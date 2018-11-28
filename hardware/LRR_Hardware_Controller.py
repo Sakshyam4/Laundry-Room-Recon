@@ -1,26 +1,21 @@
 # LRR Hardware Subsystem Control Software
 # Brody Williams
 
-'''
-Magnetic Contact Switch
-    - Use GPIO Zero library?
-    - Could also use button on breadboard/Sense hat joystick to simulate
-    as suggested by Dr. Lim
-'''
+from sense_hat import SenseHat
+from firebase import firebase
+from gpiozero import Button
+import time, copy
 
-import SenseHat, firebase, gpiozero, time, copy
-
-
-# Debug Constant (Very C-esque, I know)
-DEBUG = 1
+# Debug Constant (Very C-esque, I know...)
+DEBUG = 0
 
 # Globals
 R = (255,0,0) # Red
 G = (0,255,0) # Green
-
 vib_threshold = 2
 
 sense = SenseHat()
+door_switch = Button(18) # using GPIO pin 18 on RBP
 firebase = firebase.FirebaseApplication('https://laundry-room-recon.firebaseio.com', None)
 
 running_dclosed = [
@@ -71,42 +66,47 @@ R, R, R, G, G, R, R, R
 # Main function for LRR hardware that loops
 # and calls other functions as necessary.
 def run_lrr():
-    # Initialize values/display
-    prev_raw_data = {'x': 0, 'y': 1.9, 'z': 95}
-    prev_running_status = 0 # 0: Not running 1: Running
-    prev_door_status = 0 # 0: Door closed 1: Door open
-    sense.set_pixels(stopped_dclosed)
-    
-    while True:
-        # Gather raw accelerometer data
-        raw_data = sense.get_accelerometer_raw()
-
-        # Modify raw data for easier visualization
-        raw_data['x'] *= 100
-        raw_data['y'] *= 100
-        raw_data['z'] *= 100
+    try:
+        # Initialize values/display
+        prev_raw_data = {'x': 0, 'y': 1.9, 'z': 95}
+        prev_running_status = 0 # 0: Not running 1: Running
+        prev_door_status = 0 # 0: Door closed 1: Door open
+        sense.set_pixels(stopped_dclosed)
         
-        # Get new running status
-        running_status = determine_running_status(prev_raw_data, raw_data)
+        while True:
+            # Gather raw accelerometer data
+            raw_data = sense.get_accelerometer_raw()
 
-        # Get new door status - TODO
-        door_status = determine_door_status()
-
-        # Debugging/Sensitivity adjustment output
-        if DEBUG:
-            debug_print(prev_raw_data, raw_data, prev_running_status, \
-                        running_status, prev_door_status, door_status)
-
-        # Update LED display and database if either status changes
-        if (running_status != prev_running_status) or (door_status != prev_door_status):
-            display_status(running_status, door_status)
-            update_db(running_status, door_status)
+            # Modify raw data for easier visualization
+            raw_data['x'] *= 100
+            raw_data['y'] *= 100
+            raw_data['z'] *= 100
             
-        # Update previous values and wait before next loop iteration
-        prev_raw_data = copy.deepcopy(raw_data)
-        prev_running_status = running_status
-        prev_door_status = door_status
-        time.sleep(.5)
+            # Get new running status
+            running_status = determine_running_status(prev_raw_data, raw_data)
+
+            # Get new door status
+            door_status = determine_door_status()
+
+            # Debugging/Sensitivity adjustment output
+            if DEBUG:
+                debug_print(prev_raw_data, raw_data, prev_running_status, \
+                            running_status, prev_door_status, door_status)
+
+            # Update LED display and database if either status changes
+            if (running_status != prev_running_status) or (door_status != prev_door_status):
+                display_status(running_status, door_status)
+                update_db(running_status, door_status)
+                
+            # Update previous values and wait before next loop iteration
+            prev_raw_data = copy.deepcopy(raw_data)
+            prev_running_status = running_status
+            prev_door_status = door_status
+            time.sleep(.5)
+            
+    finally:
+        # Turn off LEDs before exiting
+        sense.clear()
 
 # Determines running/not running status by comparing
 # raw accelerometer data with previous data. Returns
@@ -119,9 +119,16 @@ def determine_running_status(prev_data, new_data):
     else:
         return 0
     
-#TODO
+# Gets current status of magnetic door switch using
+# gpiozero button functionality. Returns 0 for a closed
+# door or 1 for an open door.
 def determine_door_status():
-    pass
+    # True when sensors are close, indicates a closed door   
+    if door_switch.is_pressed:
+        return 0
+    # False when sensors are apart, indicates an open door 
+    elif not door_switch.is_pressed:
+        return 1
     
 # Updates the Sense Hat LED display to reflect the current status
 def display_status(running_status, door_status):
@@ -147,7 +154,7 @@ def update_db(running_status, door_status):
 
     if DEBUG:
         # Print new status
-        print("\nUpdating database! Running status: {:d} Door status: {:d}\n" .format(running_status, door_status))
+        print("\nUpdating database! Running status: %d Door status: %d\n" %(running_status, door_status))
     
 
 # Function to print x,y,z  vibration data values & current/previous
@@ -157,13 +164,13 @@ def debug_print(prev_raw_data, raw_data, prev_running_status, \
     print("\n Previous Data: x = %.5f, y = %.5f, z = %.5f," \
           "\n New Data :     x = %.5f, y = %.5f, z = %.5f," \
           "\n D(x) = %.5f, D(y) = %.5f, D(z) = %.5f" \
-          "\n Previous Running Status: %d New Running Status: %d\n" \
+          "\n Previous Running Status: %d New Running Status: %d" \
           "\n Previous Door Status %d New Door Status: %d\n" \
-           % (prev_data['x'], prev_data['y'], prev_data['z'], \
-                  new_data['x'], new_data['y'], new_data['z'], \
-                  abs(new_data['x'] - prev_data['x']), \
-                  abs(new_data['y'] - prev_data['y']), \
-                  abs(new_data['z'] - prev_data['z']), \
+           % (prev_raw_data['x'], prev_raw_data['y'], prev_raw_data['z'], \
+                  raw_data['x'], raw_data['y'], raw_data['z'], \
+                  abs(raw_data['x'] - prev_raw_data['x']), \
+                  abs(raw_data['y'] - prev_raw_data['y']), \
+                  abs(raw_data['z'] - prev_raw_data['z']), \
                   prev_running_status, running_status, \
                   prev_door_status, door_status))
     
