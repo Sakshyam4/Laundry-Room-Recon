@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
     View slidein;
     View startview;
     ImageButton startButton;
-    Integer checkStatus=0;
+    Integer checkWMStatus=0;
+    Integer checkDoorStatus=0;
     //FirebaseDatabase database = FirebaseDatabase.getInstance();
     //DatabaseReference Wmstatus = database.getReference("washingMachine/runningStatus");
     //@Override
@@ -50,14 +51,14 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
 
         startAnim.setAnimationListener(this);
 
-        DatabaseReference mReadchild=databaseReference.child("washingMachine").child("runningStatus");
-        mReadchild.addValueEventListener(new ValueEventListener() {
+        DatabaseReference mReadRunningStatus=databaseReference.child("washingMachine").child("runningStatus");
+        mReadRunningStatus.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                checkStatus=dataSnapshot.getValue(Integer.class);
-                Log.i("check:",""+checkStatus);
+                checkWMStatus=dataSnapshot.getValue(Integer.class);
+                Log.i("check:",""+checkWMStatus);
 
-                if(checkStatus==1){
+                if(checkWMStatus==1){
                     //System.out.println("Blam");
                     //Log.i("as","bamn");
 
@@ -70,6 +71,28 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
                     slidein.animate().alpha(1.0f);
                     slidein.animate().x(0);
                     startview.animate().x(-1000);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //ValueSetListener for Door
+        DatabaseReference mReadDoor=databaseReference.child("washingMachine").child("doorSensor");
+        mReadDoor.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                checkDoorStatus=dataSnapshot.getValue(Integer.class);
+                Log.i("checkDoor:",""+checkDoorStatus);
+
+                if(checkDoorStatus==1){
+                    Log.i("DoorStatus: ", "Door is Open");
+                }
+                if(checkDoorStatus==0){
+                    Log.i("DoorStatus: ", "Door is Closed");
                 }
             }
 
@@ -112,20 +135,7 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
 
     }
 
-   // public void showData(DataSnapshot dataSnapshot){
-   //   Log.i("as","DAMN");
 
-   //     for(DataSnapshot ds : dataSnapshot){
-   //         Log.i("as","SHIT");
-   //         ds.getValue()
-            //UserInformation uInfo = new UserInformation();
-           // uInfo.setRunningStatus(ds.child().getValue(UserInformation.class).getRunningStatus());
-            //checkStatus=uInfo.getRunningStatus();
-
-
-   //     }
-
-    //}
 
     public void WMStatus(Integer Status){
 
