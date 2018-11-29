@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
                 }
                 if(checkDoorStatus==0){
                     Log.i("DoorStatus: ", "Door is Closed");
+                    opendialog();
                     TextView textView = (TextView)findViewById(R.id.doorTextLeft);
                     textView.setText("Door Closed"); //set text for text view
                 }
@@ -166,6 +167,10 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+            public void opendialog(){
+            ExampleDialog exampleDialog = new ExampleDialog();
+            exampleDialog.show(getSupportFragmentManager(),"example dialog");
             }
         });
 
