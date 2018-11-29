@@ -10,6 +10,8 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -151,9 +153,13 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
 
                 if(checkDoorStatus==1){
                     Log.i("DoorStatus: ", "Door is Open");
+                    TextView textView = (TextView)findViewById(R.id.doorTextLeft);
+                    textView.setText("Door Open"); //set text for text view
                 }
                 if(checkDoorStatus==0){
                     Log.i("DoorStatus: ", "Door is Closed");
+                    TextView textView = (TextView)findViewById(R.id.doorTextLeft);
+                    textView.setText("Door Closed"); //set text for text view
                 }
             }
 
