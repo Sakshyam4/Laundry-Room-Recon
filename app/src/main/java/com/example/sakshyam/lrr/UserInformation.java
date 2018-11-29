@@ -20,7 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class UserInformation {
-    private Integer runningStatus;
+    public Integer runningStatus;
+
 
     public Integer getRunningStatus(){
         return runningStatus;
