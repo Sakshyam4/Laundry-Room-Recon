@@ -51,6 +51,36 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
 
         startAnim.setAnimationListener(this);
 
+        startButton = (ImageButton)findViewById(R.id.startButton);
+        clothes = (View)findViewById(R.id.clothesSpin);
+        clothes.setAlpha(0.0f);
+
+        slidein = (View)findViewById(R.id.rightSlider);
+        slidein.setAlpha(0.0f);
+        slidein.setX(-1000);
+        startview = (View)findViewById(R.id.readystate);
+
+
+
+        startButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                //System.out.println("Blam");
+                //Log.i("as","bamn");
+                AnimationSet s = new AnimationSet(false);
+                s.addAnimation(startAnim);
+                clothes.startAnimation(s);
+                clothes.animate().alpha(1.0f);
+                clothes.startAnimation(startAnim);
+                WMStatus(1);
+                slidein.animate().alpha(1.0f);
+                slidein.animate().x(0);
+                startview.animate().x(-1000);
+            }});
+
+
+
         DatabaseReference mReadRunningStatus=databaseReference.child("washingMachine").child("runningStatus");
         mReadRunningStatus.addValueEventListener(new ValueEventListener() {
             @Override
@@ -72,6 +102,37 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
                     slidein.animate().x(0);
                     startview.animate().x(-1000);
                 }
+                if(checkWMStatus==0){
+
+                    startButton = (ImageButton)findViewById(R.id.startButton);
+                    clothes = (View)findViewById(R.id.clothesSpin);
+                    clothes.setAlpha(0.0f);
+
+                    slidein = (View)findViewById(R.id.rightSlider);
+                    slidein.setAlpha(0.0f);
+                    slidein.animate().x(-1000);
+                    startview.animate().x(0);
+
+
+                    startButton.setOnClickListener(new View.OnClickListener(){
+
+                        @Override
+                        public void onClick(View v) {
+                            //System.out.println("Blam");
+                            //Log.i("as","bamn");
+                            AnimationSet s = new AnimationSet(false);
+                            s.addAnimation(startAnim);
+                            clothes.startAnimation(s);
+                            clothes.animate().alpha(1.0f);
+                            clothes.startAnimation(startAnim);
+                            WMStatus(1);
+                            slidein.animate().alpha(1.0f);
+                            slidein.animate().x(0);
+                            startview.animate().x(-1000);
+                        }});
+
+                }
+
             }
 
             @Override
@@ -105,35 +166,11 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
 
 
 
-        startButton = (ImageButton)findViewById(R.id.startButton);
-        clothes = (View)findViewById(R.id.clothesSpin);
-        clothes.setAlpha(0.0f);
-
-        slidein = (View)findViewById(R.id.rightSlider);
-        slidein.setAlpha(0.0f);
-        slidein.setX(-1000);
-        startview = (View)findViewById(R.id.readystate);
 
 
-
-        startButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                //System.out.println("Blam");
-                //Log.i("as","bamn");
-                AnimationSet s = new AnimationSet(false);
-                s.addAnimation(startAnim);
-                clothes.startAnimation(s);
-                clothes.animate().alpha(1.0f);
-                clothes.startAnimation(startAnim);
-                WMStatus(1);
-                slidein.animate().alpha(1.0f);
-                slidein.animate().x(0);
-                startview.animate().x(-1000);
-            }});
 
     }
+
 
 
 
