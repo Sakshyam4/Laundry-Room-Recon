@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
 
                 if(checkDoorStatus==1){
                     Log.i("DoorStatus: ", "Door is Open");
+                    opendialog2();
                     TextView textView = (TextView)findViewById(R.id.doorTextLeft);
                     textView.setText("Door Open"); //set text for text view
                 }
@@ -171,6 +172,10 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
             public void opendialog(){
             ExampleDialog exampleDialog = new ExampleDialog();
             exampleDialog.show(getSupportFragmentManager(),"example dialog");
+            }
+            public void opendialog2(){
+                ExampleDialog2 exampleDialog2 = new ExampleDialog2();
+                exampleDialog2.show(getSupportFragmentManager(),"example dialog");
             }
         });
 
