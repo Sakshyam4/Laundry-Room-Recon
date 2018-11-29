@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
         });
 
         //ValueSetListener for Door
-        DatabaseReference mReadDoor=databaseReference.child("washingMachine").child("doorSensor");
+        DatabaseReference mReadDoor=databaseReference.child("washingMachine").child("doorStatus");
         mReadDoor.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -153,13 +153,13 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
 
                 if(checkDoorStatus==1){
                     Log.i("DoorStatus: ", "Door is Open");
-                    opendialog2();
+
                     TextView textView = (TextView)findViewById(R.id.doorTextLeft);
                     textView.setText("Door Open"); //set text for text view
                 }
                 if(checkDoorStatus==0){
                     Log.i("DoorStatus: ", "Door is Closed");
-                    opendialog();
+
                     TextView textView = (TextView)findViewById(R.id.doorTextLeft);
                     textView.setText("Door Closed"); //set text for text view
                 }
@@ -168,14 +168,6 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-            public void opendialog(){
-            ExampleDialog exampleDialog = new ExampleDialog();
-            exampleDialog.show(getSupportFragmentManager(),"example dialog");
-            }
-            public void opendialog2(){
-                ExampleDialog2 exampleDialog2 = new ExampleDialog2();
-                exampleDialog2.show(getSupportFragmentManager(),"example dialog");
             }
         });
 
