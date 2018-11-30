@@ -31,13 +31,19 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
     View slidein;
     View startview;
     ImageButton startButton;
+    ImageButton addQueue;
     Integer checkWMStatus=0;
     Integer checkDoorStatus=0;
+    Integer queueStatus=0;
+    Integer quePosition=0;
+    Integer userPosition=0;
     //FirebaseDatabase database = FirebaseDatabase.getInstance();
     //DatabaseReference Wmstatus = database.getReference("washingMachine/runningStatus");
     //@Override
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainscreen);
@@ -54,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
         startAnim.setAnimationListener(this);
 
         startButton = (ImageButton)findViewById(R.id.startButton);
+        addQueue = (ImageButton)findViewById(R.id.addQueue);
         clothes = (View)findViewById(R.id.clothesSpin);
         clothes.setAlpha(0.0f);
 
@@ -132,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
                             slidein.animate().x(0);
                             startview.animate().x(-1000);
                         }});
+                    final DatabaseReference setQuePos=databaseReference.child("washingMachine").child("quepos");
+                    setQuePos.setValue(++quePosition);
 
                 }
 
@@ -171,10 +180,73 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
             }
         });
 
+        //ValueSetListener for Queue
+        final DatabaseReference readQueue=databaseReference.child("washingMachine").child("queue");
+        final DatabaseReference readQuePos=databaseReference.child("washingMachine").child("quepos");
+        readQueue.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                queueStatus=dataSnapshot.getValue(Integer.class);
+                TextView textView = (TextView)findViewById(R.id.queueText);
+                if(queueStatus==quePosition){
+                    textView.setText("Queue Empty");
+                }
+                else{
+                    textView.setText("In Queue: " + (queueStatus-quePosition)); //set text for text view
+                }
+                Log.i("queue status: ",""+queueStatus);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+        readQuePos.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                quePosition=dataSnapshot.getValue(Integer.class);
+                TextView textView = (TextView)findViewById(R.id.queueText);
+                if(queueStatus==quePosition){
+                    textView.setText("Queue Empty");
+                }
+                else{
+                    textView.setText("In Queue: " + (queueStatus-quePosition)); //set text for text view
+                }
+                Log.i("queue status: ",""+queueStatus);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+        readQueue.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                queueStatus=dataSnapshot.getValue(Integer.class);
+                TextView textView = (TextView)findViewById(R.id.queueText);
+                if(queueStatus==0){
+                    textView.setText("Queue Empty");
+                }
+                else{
+                    textView.setText("In Queue: " + queueStatus); //set text for text view
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // ...
+            }
+        });
+        addQueue.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
+                readQueue.setValue(++queueStatus);
+
+            }});
 
 
     }
@@ -187,6 +259,17 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
         DatabaseReference mchild=databaseReference;
         mchild.child("washingMachine").child("runningStatus").setValue(Status);
         //Wmstatus.setValue(Status);
+    }
+
+    public void queueChange(){
+        TextView textView = (TextView)findViewById(R.id.queueText);
+        if(queueStatus==0){
+            textView.setText("Queue Empty");
+        }
+        else{
+            textView.setText("In Queue: " + queueStatus); //set text for text view
+        }
+
     }
 
     @Override

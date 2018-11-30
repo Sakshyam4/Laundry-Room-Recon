@@ -283,15 +283,42 @@
             android:layout_height="match_parent">
 
             <ImageButton
+                android:id="@+id/addQueue2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/newuser" />
+
+            <TextView
+                android:id="@+id/queueText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="60dp"
+                android:fontFamily="@font/helvetbold"
+                android:text="Queue Empty"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
                 android:id="@+id/addQueue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="17dp"
                 android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_add" />
+                app:srcCompat="@drawable/newuser" />
 
             <TextView
                 android:id="@+id/queueText"
