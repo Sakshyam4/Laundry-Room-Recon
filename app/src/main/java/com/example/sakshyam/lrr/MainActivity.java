@@ -2,6 +2,7 @@ package com.example.sakshyam.lrr;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
     //@Override
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    boolean firstrun=true;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
                     slidein.animate().x(0);
                     startview.animate().x(-1000);
                 }
-                if(checkWMStatus==0){
+                if(checkWMStatus==0 && firstrun==false){
 
                     startButton = (ImageButton)findViewById(R.id.startButton);
                     clothes = (View)findViewById(R.id.clothesSpin);
@@ -142,7 +145,9 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
                     final DatabaseReference setQuePos=databaseReference.child("washingMachine").child("quepos");
                     setQuePos.setValue(++quePosition);
 
+
                 }
+                firstrun=false;
 
             }
 
@@ -188,12 +193,28 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 queueStatus=dataSnapshot.getValue(Integer.class);
                 TextView textView = (TextView)findViewById(R.id.queueText);
-                if(queueStatus==quePosition){
-                    textView.setText("Queue Empty");
+                if(userPosition!=0) {
+                    if (queueStatus == quePosition) {
+                        textView.setText("Queue Empty");
+                    } else {
+                        textView.setText("In Queue: " + (userPosition - quePosition) +
+                                " of " + (queueStatus - quePosition)); //set text for text view
+                    }
                 }
                 else{
-                    textView.setText("In Queue: " + (queueStatus-quePosition)); //set text for text view
+                    if(queueStatus==quePosition){
+                        textView.setText("Queue Empty");
+                    }
+                    else{
+                        textView.setText("In Queue: " + (queueStatus-quePosition)); //set text for text view
+                    }
+
                 }
+                if((userPosition-quePosition)==0){
+                    textView.setText("You're up!");
+                }
+
+
                 Log.i("queue status: ",""+queueStatus);
             }
 
@@ -207,12 +228,27 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 quePosition=dataSnapshot.getValue(Integer.class);
                 TextView textView = (TextView)findViewById(R.id.queueText);
-                if(queueStatus==quePosition){
-                    textView.setText("Queue Empty");
+                if(userPosition!=0) {
+                    if (queueStatus == quePosition) {
+                        textView.setText("Queue Empty");
+                    } else {
+                        textView.setText("In Queue: " + (userPosition - quePosition) +
+                                " of " + (queueStatus - quePosition)); //set text for text view
+                    }
                 }
                 else{
-                    textView.setText("In Queue: " + (queueStatus-quePosition)); //set text for text view
+                    if(queueStatus==quePosition){
+                        textView.setText("Queue Empty");
+                    }
+                    else{
+                        textView.setText("In Queue: " + (queueStatus-quePosition)); //set text for text view
+                    }
+
                 }
+                if((userPosition-quePosition)==0){
+                    textView.setText("You're up!");
+                }
+
                 Log.i("queue status: ",""+queueStatus);
             }
 
@@ -226,17 +262,67 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
             public void onDataChange(DataSnapshot dataSnapshot) {
                 queueStatus=dataSnapshot.getValue(Integer.class);
                 TextView textView = (TextView)findViewById(R.id.queueText);
-                if(queueStatus==0){
-                    textView.setText("Queue Empty");
+                if(userPosition!=0) {
+                    if (queueStatus == quePosition) {
+                        textView.setText("Queue Empty");
+                    } else {
+                        textView.setText("In Queue: " + (userPosition - quePosition) +
+                                " of " + (queueStatus - quePosition)); //set text for text view
+                    }
                 }
                 else{
-                    textView.setText("In Queue: " + queueStatus); //set text for text view
+                    if(queueStatus==quePosition){
+                        textView.setText("Queue Empty");
+                    }
+                    else{
+                        textView.setText("In Queue: " + (queueStatus-quePosition)); //set text for text view
+                    }
+
                 }
+                if((userPosition-quePosition)==0){
+                    textView.setText("You're up!");
+                }
+
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // ...
+            }
+        });
+        readQuePos.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                quePosition=dataSnapshot.getValue(Integer.class);
+                TextView textView = (TextView)findViewById(R.id.queueText);
+                if(userPosition!=0) {
+                    if (queueStatus == quePosition) {
+                        textView.setText("Queue Empty");
+                    } else {
+                        textView.setText("In Queue: " + (userPosition - quePosition) +
+                                " of " + (queueStatus - quePosition)); //set text for text view
+                    }
+                }
+                else{
+                    if(queueStatus==quePosition){
+                        textView.setText("Queue Empty");
+                    }
+                    else{
+                        textView.setText("In Queue: " + (queueStatus-quePosition)); //set text for text view
+                    }
+
+                }
+                if((userPosition-quePosition)==0){
+                    textView.setText("You're up!");
+                }
+
+                Log.i("queue status: ",""+queueStatus);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
         addQueue.setOnClickListener(new View.OnClickListener(){
@@ -245,6 +331,13 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
             public void onClick(View v) {
 
                 readQueue.setValue(++queueStatus);
+                userPosition=queueStatus;
+                addQueue.setX(-100.0f);
+                TextView textView = (TextView)findViewById(R.id.queueText);
+                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)textView.getLayoutParams();
+                params.setMarginStart(60);
+                textView.setLayoutParams(params);
+
 
             }});
 
@@ -261,16 +354,6 @@ public class MainActivity extends AppCompatActivity implements AnimationListener
         //Wmstatus.setValue(Status);
     }
 
-    public void queueChange(){
-        TextView textView = (TextView)findViewById(R.id.queueText);
-        if(queueStatus==0){
-            textView.setText("Queue Empty");
-        }
-        else{
-            textView.setText("In Queue: " + queueStatus); //set text for text view
-        }
-
-    }
 
     @Override
     public void onAnimationEnd(Animation animation) {
